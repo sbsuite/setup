@@ -15,20 +15,20 @@ MSI = {
   'CONSOLE_APP'=> 
     {
       'project_name'=> 'consoleapp-yvmia',
-      'msi_name' =>'ConsoleApp.Setup.msi',
+      'artifact_name' =>'ConsoleApp.Setup.msi',
       'artifact_path'=> 'setup/ConsoleApp.Setup/bin/Setup/',
       'branch'=>  'develop'
     },
   'MIKTEX'=>
     {
       'project_name'=> 'miktex',
-      'msi_name' =>'MikTex.2.9.2.9711.msi',
+      'artifact_name' =>'MikTex.2.9.2.9711.msi',
       'artifact_path' => '',
       'branch' => 'master'
     },
   'DOTNET'=>
     {
-      'msi_name' => 'dotnetfx45_full_x86_x64.exe'
+      'artifact_name' => 'dotnetfx45_full_x86_x64.exe',
       'uri' => 'http://go.microsoft.com/fwlink/?LinkId=225702'
     }
   }   
@@ -98,12 +98,12 @@ def prepare_msi(msi)
   package =  MSI[msi]
   file = download package
 
-  REPLACEMENTS[msi] = package['msi_name'] 
+  REPLACEMENTS[msi] = package['artifact_name'] 
   #  copy_to_daily_build file
 end
 
 def download(package)
-  file_name = package['msi_name'];
+  file_name = package['artifact_name'];
   file = File.join(deploy_dir,file_name)
   uri = package['uri'];
   uri = "https://ci.appveyor.com/api/projects/#{ACCOUNT_NAME}/#{package['project_name']}/artifacts/#{package['artifact_path']}#{file_name}?branch=#{package['branch']}" unless uri
