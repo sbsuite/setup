@@ -2,4 +2,4 @@ build_script:
   rake
 
 artifacts:
-  - path: '**/output/*.msi'  
+  - path: '**/output/*.exe'  
