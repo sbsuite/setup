@@ -6,8 +6,7 @@ OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
 
 task :default => :setup
 
-# VERSION = ENV['APPVEYOR_BUILD_VERSION']
-VERSION = ENV['VERSION']
+VERSION = ENV['APPVEYOR_BUILD_VERSION']
 PRODUCT_NAME = 'ConsoleAppBundle'
 REPLACEMENTS = {}
 ACCOUNT_NAME = 'MichaelSevestre'
@@ -26,6 +25,11 @@ MSI = {
       'msi_name' =>'MikTex.2.9.2.9711.msi',
       'artifact_path' => '',
       'branch' => 'master'
+    },
+  'DOTNET'=>
+    {
+      'msi_name' => 'dotnetfx45_full_x86_x64.exe'
+      'uri' => 'http://go.microsoft.com/fwlink/?LinkId=225702'
     }
   }   
 
@@ -101,7 +105,8 @@ end
 def download(package)
   file_name = package['msi_name'];
   file = File.join(deploy_dir,file_name)
-  uri = "https://ci.appveyor.com/api/projects/#{ACCOUNT_NAME}/#{package['project_name']}/artifacts/#{package['artifact_path']}#{file_name}?branch=#{package['branch']}"
+  uri = package['uri'];
+  uri = "https://ci.appveyor.com/api/projects/#{ACCOUNT_NAME}/#{package['project_name']}/artifacts/#{package['artifact_path']}#{file_name}?branch=#{package['branch']}" unless uri
 
   puts "Download #{file_name} from #{uri}"
   open(file, 'wb') do |fo| 

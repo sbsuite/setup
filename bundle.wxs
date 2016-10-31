@@ -12,7 +12,7 @@
      
       <Variable Name="InstallFolder" Type="string" Value="[ProgramFilesFolder]"/>      
       <Chain>
-       <!--  <ExePackage
+        <ExePackage
           Id="Netfx45"
           Compressed="$(var.Compressed)"
           PerMachine="yes" 
@@ -25,7 +25,7 @@
           DownloadUrl="http://go.microsoft.com/fwlink/?LinkId=225702"
         />      
     
-        <ExePackage
+<!--         <ExePackage
           SourceFile="vcredist_x86_VS2013.exe"
           InstallCommand='/q '
           Vital="yes"
@@ -33,8 +33,8 @@
           PerMachine="yes"
           Permanent="yes"          
 		      DownloadUrl='https://sbupdates:LtIgFm12@www.systems-biology.com/fileadmin/sb_ftp/updates/vcredist_x86_VS2013.exe'
-        /> -->
-      
+        />
+ -->      
         <MsiPackage
           Id='MikTex'
           Vital ='yes'
