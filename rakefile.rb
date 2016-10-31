@@ -34,7 +34,10 @@ MSI = {
   }   
 
 desc "Create suite setup"
-task :setup => :fetch do
+task :setup  do
+
+  Rake::Task[:fetch].execute
+
   REPLACEMENTS['PRODUCT_FULL_NAME'] =  PRODUCT_NAME
   REPLACEMENTS['PRODUCT_FULL_VERSION'] =  VERSION
   
