@@ -35,16 +35,16 @@
 		      DownloadUrl='https://sbupdates:LtIgFm12@www.systems-biology.com/fileadmin/sb_ftp/updates/vcredist_x86_VS2013.exe'
         />
  -->      
-       <!--  <MsiPackage
+        <MsiPackage
           Id='MikTex'
           Vital ='yes'
           SourceFile='MIKTEX'
           Compressed='$(var.Compressed)'
           DownloadUrl="https://sbupdates:LtIgFm12@www.systems-biology.com/fileadmin/sb_ftp/updates/MIKTEX"
-          >
+        >
           <MsiProperty Name='TARGETDIR' Value='[InstallFolder]'/>
         </MsiPackage>
-           -->
+          
         
         <MsiPackage 
           Id="ConsoleApp"
@@ -52,7 +52,7 @@
           SourceFile="CONSOLE_APP"
           Compressed="$(var.Compressed)"
           DownloadUrl="https://sbupdates:LtIgFm12@www.systems-biology.com/fileadmin/sb_ftp/updates/MOBI"
-                    >
+        >
           <MsiProperty Name='TARGETDIR' Value='[InstallFolder]'/>
         </MsiPackage>
       

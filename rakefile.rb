@@ -19,13 +19,13 @@ MSI = {
       'artifact_path'=> 'setup/ConsoleApp.Setup/bin/Setup/',
       'branch'=>  'develop'
     },
-  # 'MIKTEX'=>
-  #   {
-  #     'project_name'=> 'miktex',
-  #     'artifact_name' =>'MikTex.2.9.2.9711.msi',
-  #     'artifact_path' => '',
-  #     'branch' => 'master'
-  #   },
+  'MIKTEX'=>
+    {
+      'project_name'=> 'miktex',
+      'artifact_name' =>'MikTex.2.9.2.9711.msi',
+      'artifact_path' => '',
+      'branch' => 'master'
+    },
   'DOTNET'=>
     {
       'artifact_name' => 'dotnetfx45_full_x86_x64.exe',
