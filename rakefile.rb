@@ -34,10 +34,7 @@ MSI = {
   }   
 
 desc "Create suite setup"
-task :setup  do
-
-  Rake::Task[:fetch].execute
-
+task :setup => :fetch do
   REPLACEMENTS['PRODUCT_FULL_NAME'] =  PRODUCT_NAME
   REPLACEMENTS['PRODUCT_FULL_VERSION'] =  VERSION
   
@@ -87,7 +84,7 @@ task :fetch => :clean do
     end
   end
 
-  threads.each { |aThread|  aThread.join }  
+  threads.map(&:join)
 end
 
 desc "cleanup files before starting compilation"
