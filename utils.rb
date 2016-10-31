@@ -25,7 +25,5 @@ module Utils
 end
 
 task :run_cmd, [:command, :command_line] do |cmd, args|
-  cmd_to_run = "#{args.command} #{args.command_line.join(' ')}"
-  puts cmd_to_run
   system(args.command, *args.command_line)
 end
