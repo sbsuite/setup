@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension"
+     xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
+   
+   <Bundle Name="PRODUCT_FULL_NAME" Version="PRODUCT_FULL_VERSION" Manufacturer="Bayer AG" UpgradeCode="8511e368-91f8-4ab3-bb1e-31ffcb9c849a">
+      <Log Disable="no" PathVariable="TEMP"/>
+      
+      <BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.RtfLicense" />
+      <WixVariable Id="WixStdbaLicenseRtf" Value="EULA.rtf" />
+      <WixVariable Id="WixStdbaLogo" Value="Banner.png" />
+     
+      <Variable Name="InstallFolder" Type="string" Value="[ProgramFilesFolder]"/>      
+      <Chain>
+        <ExePackage
+          Id="Netfx45"
+          Compressed="$(var.Compressed)"
+          PerMachine="yes" 
+          Permanent="yes" 
+          Vital="yes" 
+          InstallCommand="/q /norestart"
+          SourceFile="dotnetfx45_full_x86_x64.exe"
+          DetectCondition="(Netfx4FullVersion=&quot;4.5.50709&quot;) AND (NOT VersionNT64 OR (Netfx4x64FullVersion=&quot;4.5.50709&quot;))"
+          InstallCondition="(VersionNT >= v6.0 OR VersionNT64 >= v6.0) AND (NOT (Netfx4FullVersion=&quot;4.5.50709&quot; OR Netfx4x64FullVersion=&quot;4.5.50709&quot;))"
+          DownloadUrl="http://go.microsoft.com/fwlink/?LinkId=225702"
+        />      
+    
+        <ExePackage
+          SourceFile="vcredist_x86_VS2013.exe"
+          InstallCommand='/q '
+          Vital="yes"
+          Compressed="$(var.Compressed)"
+          PerMachine="yes"
+          Permanent="yes"          
+		      DownloadUrl='https://sbupdates:LtIgFm12@www.systems-biology.com/fileadmin/sb_ftp/updates/vcredist_x86_VS2013.exe'
+        />
+      
+        <MsiPackage
+          Id='MikTexPackages'
+          Vital ='yes'
+          SourceFile='MIKTEX'
+          Compressed='$(var.Compressed)'
+          DownloadUrl="https://sbupdates:LtIgFm12@www.systems-biology.com/fileadmin/sb_ftp/updates/MIKTEX"
+          >
+          <MsiProperty Name='TARGETDIR' Value='[InstallFolder]'/>
+        </MsiPackage>
+          
+        
+        <MsiPackage 
+          Id="MoBi"
+          Vital="yes"
+          SourceFile="MOBI"
+          Compressed="$(var.Compressed)"
+          DownloadUrl="https://sbupdates:LtIgFm12@www.systems-biology.com/fileadmin/sb_ftp/updates/MOBI"
+                    >
+          <MsiProperty Name='TARGETDIR' Value='[InstallFolder]'/>
+        </MsiPackage>
+      
+      </Chain>
+
+   </Bundle>
+</Wix>
