@@ -25,5 +25,5 @@ module Utils
 end
 
 task :run_cmd, [:command, :command_line] do |cmd, args|
-  system(args.command, *args.command_line)
+  sh(args.command, *args.command_line)
 end
