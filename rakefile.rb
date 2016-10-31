@@ -76,10 +76,9 @@ end
 
 desc "Get a file from a remote server"
 task :fetch => :clean do
-  threads = []
 
-  MSI.each_key do |msi|
-    threads << Thread.new(msi) do |_msi|
+  threads = MSI.each_key.collect do |msi|
+    Thread.new(msi) do |_msi|
       prepare_msi(_msi)
     end
   end
