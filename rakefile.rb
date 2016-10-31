@@ -1,12 +1,16 @@
 require 'open-uri'
 require 'openssl'
+require_relative 'utils'
 
 OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
 
 task :default => :setup
 
+VERSION = '1.2.3'
+PRODUCT_NAME = 'ConsoleAppBundle'
 REPLACEMENTS = {}
 ACCOUNT_NAME = 'MichaelSevestre'
+
 MSI = {
   'CONSOLE_APP'=> 
     {
@@ -15,7 +19,7 @@ MSI = {
       'artifact_path'=> 'setup/ConsoleApp.Setup/bin/Setup/',
       'branch'=>  'develop'
     },
-  'MIXTEX'=>
+  'MIKTEX'=>
     {
       'project_name'=> 'miktex',
       'msi_name' =>'MikTex.2.9.2.9711.msi',
@@ -26,9 +30,9 @@ MSI = {
 
 desc "Create suite setup"
 task :setup => :fetch do
-#  REPLACEMENTS['PRODUCT_FULL_NAME'] =  full_name
-#  REPLACEMENTS['PRODUCT_FULL_VERSION'] =  full_version  
-
+  REPLACEMENTS['PRODUCT_FULL_NAME'] =  PRODUCT_NAME
+  REPLACEMENTS['PRODUCT_FULL_VERSION'] =  VERSION
+  
   copy "bundle.wxs", deploy_dir
 #  copy_setup_dependencies
   
@@ -41,11 +45,28 @@ task :setup => :fetch do
 
   #copy_to_daily_build version_file
 
- # Utils.replace_tokens REPLACEMENTS, File.join(deploy, "Bundle.wxs")
+ Utils.replace_tokens REPLACEMENTS, File.join(deploy_dir, "bundle.wxs")
 
 #  create_setup 'no', 'SBSuite-WebInstall'
  
- # create_setup 'yes', 'SBSuite-Full'
+  create_setup 'yes', 'Setup-Full'
+end
+
+def run_candle(compressed)
+  command_line = %W[#{deploy_dir}/bundle.wxs -dCompressed=#{compressed} -ext WixUtilExtension -ext WixNetFxExtension -ext WixBalExtension -o #{deploy_dir}/]
+  Utils.run_cmd(candle, command_line)
+end
+
+desc "Runs the light command that actually creates the msi package"
+def run_light(exe)
+  command_line = %W[#{deploy_dir}/Bundle.wixobj -o #{exe} -nologo -ext WixUIExtension -ext WixNetFxExtension -ext WixBalExtension -spdb -b #{deploy_dir}/ -cultures:en-us]
+  Utils.run_cmd(light, command_line)
+end
+
+def create_setup(compressed, name)
+  exe = "#{output_dir}/#{name}.#{VERSION}.exe"
+  run_candle compressed
+  run_light exe
 end
 
 desc "Get a file from a remote server"
@@ -65,18 +86,18 @@ desc "cleanup files before starting compilation"
 task :clean do
   FileUtils.rm_rf  deploy_dir
   FileUtils.mkdir_p deploy_dir  
+  FileUtils.mkdir_p output_dir  
 end
 
 def prepare_msi(msi)
-  file = download msi
+  package =  MSI[msi]
+  file = download package
 
-  REPLACEMENTS[msi] = File.basename(file) 
+  REPLACEMENTS[msi] = package['msi_name'] 
   #  copy_to_daily_build file
-  #end
 end
 
-def download(msi)
-  package = MSI[msi]
+def download(package)
   file_name = package['msi_name'];
   file = File.join(deploy_dir,file_name)
   uri = "https://ci.appveyor.com/api/projects/#{ACCOUNT_NAME}/#{package['project_name']}/artifacts/#{package['artifact_path']}#{file_name}?branch=#{package['branch']}"
@@ -91,4 +112,21 @@ end
 def deploy_dir
   File.join(File.join(File.dirname(__FILE__),'deploy'))
 end
+
+def output_dir
+  File.join(File.join(File.dirname(__FILE__),'output'))
+end
+
+def candle
+  File.join(wix_bin,'candle.exe')
+end 
+
+def light
+  File.join(wix_bin,'light.exe')
+end
+
+def wix_bin
+  'C:\Program Files (x86)\WiX Toolset v3.10\bin'
+end
+
 
