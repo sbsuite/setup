@@ -6,7 +6,7 @@ OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
 
 task :default => :setup
 
-VERSION = ENV['VERSION']
+VERSION = ENV['APPVEYOR_BUILD_VERSION']
 PRODUCT_NAME = 'ConsoleAppBundle'
 REPLACEMENTS = {}
 ACCOUNT_NAME = 'MichaelSevestre'
