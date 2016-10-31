@@ -1,2 +1,5 @@
 build_script:
   rake
+
+artifacts:
+  - path: '**/output/*.msi'  
