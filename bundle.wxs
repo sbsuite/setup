@@ -35,7 +35,7 @@
 		      DownloadUrl='https://sbupdates:LtIgFm12@www.systems-biology.com/fileadmin/sb_ftp/updates/vcredist_x86_VS2013.exe'
         />
  -->      
-        <MsiPackage
+       <!--  <MsiPackage
           Id='MikTex'
           Vital ='yes'
           SourceFile='MIKTEX'
@@ -44,7 +44,7 @@
           >
           <MsiProperty Name='TARGETDIR' Value='[InstallFolder]'/>
         </MsiPackage>
-          
+           -->
         
         <MsiPackage 
           Id="ConsoleApp"
