@@ -1,2 +1,2 @@
 build_script:
-  ruby bundle.rb
+  ruby setup.rb
