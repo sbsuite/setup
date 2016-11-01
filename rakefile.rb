@@ -4,7 +4,7 @@ require_relative 'utils'
 
 OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
 
-task :default => :setup
+task :default => [:load_dependencies, :setup]
 
 VERSION = ENV['APPVEYOR_BUILD_VERSION']
 PRODUCT_NAME = 'ConsoleAppBundle'
@@ -33,6 +33,12 @@ MSI = {
     }
   }   
 
+desc "Ensure that all required files are loaded"
+task :load_dependencies do
+  packages_rb_files = File.join('.','packages',  '**', '*.rb')
+  Dir.glob(packages_rb_files).each{|x|  require_relative x}
+end
+
 desc "Create suite setup"
 task :setup => :fetch do
   REPLACEMENTS['PRODUCT_FULL_NAME'] =  PRODUCT_NAME
@@ -59,13 +65,13 @@ end
 
 def run_candle(compressed)
   command_line = %W[#{deploy_dir}/bundle.wxs -dCompressed=#{compressed} -ext WixUtilExtension -ext WixNetFxExtension -ext WixBalExtension -o #{deploy_dir}/]
-  Utils.run_cmd(candle, command_line)
+  Utils.run_cmd(Wix.candle, command_line)
 end
 
 desc "Runs the light command that actually creates the msi package"
 def run_light(exe)
   command_line = %W[#{deploy_dir}/Bundle.wixobj -o #{exe} -nologo -ext WixUIExtension -ext WixNetFxExtension -ext WixBalExtension -spdb -b #{deploy_dir}/ -cultures:en-us]
-  Utils.run_cmd(light, command_line)
+  Utils.run_cmd(Wix.light, command_line)
 end
 
 def create_setup(compressed, name)
@@ -121,17 +127,4 @@ end
 def output_dir
   File.join(File.join(File.dirname(__FILE__),'output'))
 end
-
-def candle
-  File.join(wix_bin,'candle.exe')
-end 
-
-def light
-  File.join(wix_bin,'light.exe')
-end
-
-def wix_bin
-  'C:\Program Files (x86)\WiX Toolset v3.10\bin'
-end
-
 
