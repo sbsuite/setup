@@ -1,6 +1,5 @@
 require 'open-uri'
 require 'openssl'
-require_relative 'utils'
 
 OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
 
