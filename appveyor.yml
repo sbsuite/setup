@@ -1,5 +1,8 @@
 version: '0.4.2.{build}'
 
+install:
+  set PATH=C:\Ruby22\bin;%PATH%
+
 before_build:
   - nuget restore
 
