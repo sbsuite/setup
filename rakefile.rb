@@ -107,7 +107,8 @@ def prepare_msi(msi)
   file = download package
   puts file
   package_name = retrieve_package_name(file, package) 
-  download_path = "https://github.com/#{GITHUB_NAME}/#{package[:git_repository]}/releases/download/v#{package[:version]}/#{package_name}"
+  download_path  = package[:uri]
+  download_path = "https://github.com/#{GITHUB_NAME}/#{package[:git_repository]}/releases/download/v#{package[:version]}/#{package_name}" unless download_path
   REPLACEMENTS["#{msi}_DOWNLOAD_PATH"] = download_path
   REPLACEMENTS[msi] = package_name
 end
