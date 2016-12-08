@@ -40,7 +40,7 @@
           Vital ='yes'
           SourceFile='MIKTEX'
           Compressed='$(var.Compressed)'
-          DownloadUrl="https://sbupdates:LtIgFm12@www.systems-biology.com/fileadmin/sb_ftp/updates/MIKTEX"
+          DownloadUrl="MIKTEX_DOWNLOAD_PATH"
         >
           <MsiProperty Name='TARGETDIR' Value='[InstallFolder]'/>
         </MsiPackage>
@@ -51,7 +51,7 @@
           Vital="yes"
           SourceFile="CONSOLE_APP"
           Compressed="$(var.Compressed)"
-          DownloadUrl="https://sbupdates:LtIgFm12@www.systems-biology.com/fileadmin/sb_ftp/updates/MOBI"
+          DownloadUrl="CONSOLE_APP_DOWNLOAD_PATH"
         >
           <MsiProperty Name='TARGETDIR' Value='[InstallFolder]'/>
         </MsiPackage>
