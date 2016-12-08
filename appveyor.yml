@@ -11,3 +11,6 @@ build_script:
 
 artifacts:
   - path: '**/output/*.exe'  
+  
+  - path: '**/output/versions.txt'  
+    name: 'versions'
